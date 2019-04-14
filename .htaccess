@@ -1,0 +1,4 @@
+ServerSignature Off
+AddDefaultCharset UTF-8
+RewriteEngine On
+ErrorDocument 404 /error.php
