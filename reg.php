@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-md-8 mb-3">
         <h4>Registration form</h4>
-        <form action="/registration/registration.php" method="post">
+        <form action="" method="post">
           <label for="username">Your name</label>
           <input type="text" name="username" id="username" class="form-control">
 
@@ -25,12 +25,44 @@
           <label for="password">Your password</label>
           <input type="password" name="password" id="password" class="form-control">
 
-          <button type="submit" class="btn btn-success mt-5">Register</button>
+          <div class="alert alert-danger mt-2" id="errorBlock"></div>
+
+          <button type="button" id="reg_user" class="btn btn-success mt-3">
+            Register
+          </button>
         </form>
       </div>
       <?php require_once 'blocks/aside.php' ?>
     </div>
   </main>
   <?php require_once 'blocks/footer.php' ?>
+  <!-- Asynchronous requesting allow not to reboot page -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+    $('#reg_user').click(function () {
+      var username = $('#username').val();
+      var email = $('#email').val();
+      var login = $('#login').val();
+      var password = $('#password').val();
+
+      $.ajax({
+        url: '/registration/registration.php',
+        type: 'POST',
+        cache: false,
+        data: {'username' : username, 'email' : email, 'login' : login, 'password' : password},
+        dataType: 'html',
+        success: function(data) {
+          if(data == 'Done'){
+            $('#reg_user').text('All done');
+            $('#errorBlock').hide();
+          } else {
+            $('#errorBlock').show();
+            $('#errorBlock').text(data);
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
