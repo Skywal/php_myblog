@@ -4,7 +4,18 @@
     <nav class="my-2 my-md-0 mr-md-3">
       <a class="p-2 text-dark" href="/">Main page</a>
     </nav>
-    <a class="btn btn-outline-primary mr-2 mb-2" href="#">Sign in</a>
+    <?php
+      //end of the statement right after form
+      if(empty($_COOKIE['log'])):
+    ?>
+    <a class="btn btn-outline-primary mr-2 mb-2" href="auth.php">Sign in</a>
     <a class="btn btn-outline-primary mb-2" href="reg">Sign up</a>
+    <?php
+      else:
+    ?>
+    <a class="btn btn-outline-primary mb-2" href="auth.php">User cabinet</a>
+    <?php
+      endif;
+    ?>
   </div>
 </header>

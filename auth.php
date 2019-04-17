@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <?php
-    $website_title = 'Site registration';
+    $website_title = 'Site authorization';
     require_once 'blocks/head.php';
    ?>
 </head>
@@ -11,14 +11,12 @@
   <main class="container mt-5">
     <div class="row">
       <div class="col-md-8 mb-3">
-        <h4>Registration form</h4>
+        <?php
+          if(empty($_COOKIE['log']
+          )):  //end of the statement right after form
+        ?>
+        <h4>Authorization form</h4>
         <form action="" method="post">
-          <label for="username">Your name</label>
-          <input type="text" name="username" id="username" class="form-control">
-
-          <label for="email">Your email</label>
-          <input type="text" name="email" id="email" class="form-control">
-
           <label for="login">Your login</label>
           <input type="text" name="login" id="login" class="form-control">
 
@@ -27,10 +25,18 @@
 
           <div class="alert alert-danger mt-2" id="error_block"></div>
 
-          <button type="button" id="reg_user" class="btn btn-success mt-3">
-            Register
+          <button type="button" id="auth_user" class="btn btn-success mt-3">
+            Sign in
           </button>
         </form>
+        <?php
+          else:
+        ?>
+        <h2><?=$_COOKIE['log']; /*some other html */ ?></h2>
+        <button type="button" class="btn btn-danger mt-3" id="exit-btn">Log out</button>
+        <?php
+          endif;
+        ?>
       </div>
       <?php require_once 'blocks/aside.php' ?>
     </div>
@@ -40,22 +46,34 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script>
-    $('#reg_user').click(function () {
-      var username = $('#username').val();
-      var email = $('#email').val();
+    $('#exit-btn').click(function () {
+      $.ajax({
+        url: '/ajax/exit.php',
+        type: 'POST',
+        cache: false,
+        data: {},
+        dataType: 'html',
+        success: function(data) {
+          document.location.reload(true);
+        }
+      });
+    });
+
+    $('#auth_user').click(function () {
       var login = $('#login').val();
       var password = $('#password').val();
 
       $.ajax({
-        url: '/ajax/registration.php',
+        url: '/ajax/authorization.php',
         type: 'POST',
         cache: false,
-        data: {'username' : username, 'email' : email, 'login' : login, 'password' : password},
+        data: {'login' : login, 'password' : password},
         dataType: 'html',
         success: function(data) {
           if(data == 'Done'){
-            $('#reg_user').text('All done');
+            $('#auth_user').text(data);
             $('#error_block').hide();
+            document.location.reload(true);
           } else {
             $('#error_block').show();
             $('#error_block').text(data);
