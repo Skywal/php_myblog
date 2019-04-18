@@ -1,7 +1,5 @@
 <?php
-  require_once '../mysql_connect.php';
-
-  //filtration of POST request (security issue) and trim whitespace
+    //filtration of POST request (security issue) and trim whitespace
   $username =trim(filter_var($_POST['username'],  FILTER_SANITIZE_STRING));
   $email = trim(filter_var($_POST['email'],  FILTER_SANITIZE_EMAIL));
   $login = trim(filter_var($_POST['login'],  FILTER_SANITIZE_STRING));
@@ -36,4 +34,4 @@
   $query->execute([$username, $email, $login, $password]);
 
   echo 'Done';
- ?>
+?>
