@@ -24,7 +24,7 @@
 
   $sql = 'INSERT INTO articles(title, intro, text, date, author) VALUES (?, ?, ?, ?, ?)';
   $query = $pdo->prepare($sql);
-  $query->execute([$title, $intro, $text, time(), $_COOKIE['log']]);
+  $query->execute([$title, $intro, $text, time(), $_COOKIE['login']]);
 
   echo 'Done';
 ?>

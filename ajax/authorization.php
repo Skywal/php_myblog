@@ -32,7 +32,7 @@
   if(is_object($user))
     echo 'Something is going wrong. Pleace check your login and password.';
   else {
-    setcookie('log', $login, time() + 3600 * 24 * 30, "/");  // save cookie for this user for one month for whole web-site "/"
+    setcookie('login', $login, time() + 3600 * 24 * 30, "/");  // save cookie for this user for one month for whole web-site "/"
     echo 'Done';
   }
 
