@@ -37,9 +37,49 @@
             <?=$article->text ?>
           </p>
         </div>
-        <?php
+        <h3 class="mt-5">Comments</h3>
+        <form action="/news.php?id=<?=$_GET['id']?>" method="post">
+          <label for="username">Your name</label>
+          <input type="text" name="username" id="username" value="<?=echo_login(); ?>"class="form-control">
 
-        ?>
+          <label for="message">Your message</label>
+          <textarea name="message" id="message" class="form-control" rows="3"></textarea>
+
+          <div class="alert alert-danger mt-2" id="error_block"></div>
+
+          <button type="submit" id="mess_send" class="btn btn-success mt-3">
+            Add comment
+          </button>
+        </form>
+        <?php
+          if(!empty($_POST['username']) && !empty($_POST['message'])){
+            $username =trim(filter_var($_POST['username'],  FILTER_SANITIZE_STRING));
+            $message = trim(filter_var($_POST['message'],  FILTER_SANITIZE_EMAIL));
+
+            $sql = 'INSERT INTO comments(name, message, article_id) VALUES (?,?,?)';
+            $query = $pdo->prepare($sql);
+            $query->execute([$username, $message, $_GET['id']]);
+          }
+
+          // commnets output
+          $sql = 'SELECT * FROM `comments` WHERE `article_id` = :id ORDER BY `id` DESC';
+          $query = $pdo->prepare($sql);
+          $query->execute(['id' => $_GET['id']]);
+          $comments = $query->fetchAll(PDO::FETCH_OBJ);
+
+          foreach ($comments as $comment) {
+            echo "<div class='alert alert-info mb-2'>
+              <h4>$comment->name</h4>
+              <p>$comment->message</p>
+            </div>";
+          }
+
+          function echo_login(){
+            if(!empty($_COOKIE['login']))
+              return  $_COOKIE['login'];
+            return '';
+          }
+         ?>
       </div>
       <?php require_once 'blocks/aside.php' ?>
     </div>
