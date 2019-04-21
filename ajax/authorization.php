@@ -17,7 +17,7 @@
   };
 
   //password encrypting
-  $hash = "alk453qehjh8765hfuaih32fgd1874zh9kjhf4456auhe"; // adding to password
+  $hash = "alk453qehjauhe"; // adding to password
   $password = md5($pass . $hash); //crypting password using function md5 and our $hash variable
 
   // connect_database(); // connect to database

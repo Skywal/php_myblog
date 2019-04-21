@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-md-8 mb-3">
         <?php
-          if(empty($_COOKIE['log']
+          if(empty($_COOKIE['login']
           )):  //end of the statement right after form
         ?>
         <h4>Authorization form</h4>
@@ -32,7 +32,7 @@
         <?php
           else:
         ?>
-        <h2><?=$_COOKIE['log']; /*some other html */ ?></h2>
+        <h2><?=$_COOKIE['login']; /*some other html */ ?></h2>
         <button type="button" class="btn btn-danger mt-3" id="exit-btn">Log out</button>
         <?php
           endif;
