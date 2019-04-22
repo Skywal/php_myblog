@@ -54,7 +54,7 @@
         <?php
           if(!empty($_POST['username']) && !empty($_POST['message'])){
             $username =trim(filter_var($_POST['username'],  FILTER_SANITIZE_STRING));
-            $message = trim(filter_var($_POST['message'],  FILTER_SANITIZE_EMAIL));
+            $message = filter_var($_POST['message'],  FILTER_SANITIZE_STRING);
 
             $sql = 'INSERT INTO comments(name, message, article_id) VALUES (?,?,?)';
             $query = $pdo->prepare($sql);
@@ -74,6 +74,7 @@
             </div>";
           }
 
+          // print login into text input if logged
           function echo_login(){
             if(!empty($_COOKIE['login']))
               return  $_COOKIE['login'];
